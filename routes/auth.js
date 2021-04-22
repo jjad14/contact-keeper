@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 
 require("dotenv").config();
+const auth = require('../middleware/auth');
+
 const User = require('../models/User');
 
 const router = express.Router();
@@ -11,8 +13,17 @@ const router = express.Router();
 // GET: api/auth
 // Get logged a user
 // Private access
-router.get('/', (req, res) => {
-    res.send('Get logged in user');
+router.get('/', auth, async (req, res) => {
+    try {
+        // find user by id (without the password)
+        const user = await User.findById(req.user.id).select('-password');
+
+        // return user
+        res.json(user);
+    }
+    catch(e) {
+        res.status(500).send('Server Error');
+    }
 });
 
 // POST: api/auth
@@ -33,6 +44,7 @@ router.post(
     const {email, password} = req.body;
 
     try {
+        // find user by email
         let user = await User.findOne({email});
 
         // if there is no user
