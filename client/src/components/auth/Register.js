@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
+import AuthContext from '../../context/auth/authContext';
 import AlertContext from '../../context/alert/alertContext';
 
 const Register = () => {
-    const alertContext = useContext(AlertContext);
-
-    const {setAlert }= alertContext;
+    const { register, error, clearErrors } = useContext(AuthContext);
+    const { setAlert } = useContext(AlertContext);
 
     const [user, setUser] = useState({
         name: '',
@@ -16,6 +16,13 @@ const Register = () => {
 
     const { name, email, password, password2 } = user;
     
+    useEffect(() => {
+        if (error === 'User already exists') {
+            setAlert(error, 'danger');
+            clearErrors();
+        }
+    }, [error]);
+
     const onChangeHandler = (e) => {
         setUser({...user, [e.target.name]: e.target.value});
     };
@@ -31,6 +38,11 @@ const Register = () => {
         }
         else {
             console.log('Register Submitted');
+            register({
+                name,
+                email,
+                password
+            });
         }
 
     };
