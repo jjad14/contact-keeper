@@ -93,8 +93,11 @@ img {
 /* Cards */
 .card {
   padding: 1rem;
-  border: #ccc 1px dotted;
+  /* border: #ccc 1px dotted; */
   margin: 0.7rem 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* List */
@@ -308,6 +311,7 @@ input[type='text'],
 input[type='email'],
 input[type='password'],
 input[type='date'],
+input[type='tel'],
 select,
 textarea {
   display: block;
@@ -335,6 +339,9 @@ button {
   margin: 2rem auto;
   overflow: hidden;
   padding: 0 2rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .form-container h1,
@@ -364,6 +371,7 @@ table th {
   border-bottom: solid 1px var(--primary-color);
   opacity: 0.9;
   margin-bottom: 1rem;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 .navbar ul {
@@ -398,6 +406,18 @@ table th {
 .item-exit-active {
   opacity: 0;
   transition: opacity 1000ms ease-in;
+}
+
+.capitalize {
+  text-transform: capitalize;
+  float: right;
+  width: 6rem;
+}
+
+.buttons {
+  display: flexbox;
+  flex-direction: row;
+  text-align: center;
 }
 
 /* Mobile Styles */
