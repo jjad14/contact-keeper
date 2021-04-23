@@ -1,10 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import ContactContext from '../../context/contact/contactContext';
 
 const ContactForm = () => {
     const contactContext = useContext(ContactContext);
 
+    const { current, addContact, updateContact, clearCurrent } = contactContext;
     const [contact, setContact] = useState({
         name: '',
         email: '',
@@ -14,6 +15,20 @@ const ContactForm = () => {
 
     const { name, email, phone, type } = contact;
 
+    useEffect(() => {
+        if (current != null) {
+            setContact(current);
+        }
+        else {
+            setContact({
+                name: '',
+                email: '',
+                phone: '',
+                type: 'personal'
+            });        
+        }
+    }, [contactContext, current]);
+
     const onChangeHandler = (e) => {
         setContact({...contact, [e.target.name]: e.target.value});
     };
@@ -21,20 +36,26 @@ const ContactForm = () => {
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
-        contactContext.addContact(contact);
+        if (current === null) {
+            addContact(contact);
+        }
+        else {
+            updateContact(contact);
+        }
+        clearAllHandler();
+    };
 
-        // reset form
-        setContact({
-            name: '',
-            email: '',
-            phone: '',
-            type: 'personal'
-        });
+    const clearAllHandler = () => {
+        clearCurrent();
     };
 
     return (
         <form onSubmit={onSubmitHandler} className="form-container">
-            <h2 className="text-primary">Add Contact</h2>
+            <h2 className="text-primary">
+                {current
+                ? 'Update Contact'
+                : 'Add Contact'}
+            </h2>
             <input 
                 type="text" 
                 placeholder="Full Name" 
@@ -74,8 +95,20 @@ const ContactForm = () => {
             </div>
 
             <div>
-                <input type="submit" value="Add Contact" className="btn btn-primary btn-block"/>
+                <input 
+                    type="submit" 
+                    value={current? 'Update Contact': 'Add Contact'} 
+                    className="btn btn-primary btn-block"/>
             </div>
+            {current && (
+                <div style={{marginBottom: '1rem'}}>
+                    <button 
+                        className="btn btn-light btn-block"
+                        onClick={clearAllHandler}>
+                            Clear
+                    </button>
+                </div>
+            )}
         </form>
     );
 };
