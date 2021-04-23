@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+
+import AlertContext from '../../context/alert/alertContext';
 
 const Register = () => {
+    const alertContext = useContext(AlertContext);
+
+    const {setAlert }= alertContext;
+
     const [user, setUser] = useState({
         name: '',
         email: '',
@@ -17,7 +23,16 @@ const Register = () => {
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
-        console.log('Register Submitted');
+        if (name === '' || email === '' || password === '') {
+            setAlert('Please enter all fields', 'danger');
+        }
+        else if(password !== password2) {
+            setAlert('Passwords must match', 'danger');
+        }
+        else {
+            console.log('Register Submitted');
+        }
+
     };
 
     return (
@@ -35,7 +50,9 @@ const Register = () => {
                         type="text" 
                         name="name" 
                         value={name} 
-                        onChange={onChangeHandler}/>
+                        onChange={onChangeHandler}
+                        required
+                        autoComplete="name"/>
                 </div>
                 <div className="form-group">
                     <label 
@@ -46,7 +63,9 @@ const Register = () => {
                         type="email" 
                         name="email" 
                         value={email} 
-                        onChange={onChangeHandler}/>
+                        onChange={onChangeHandler}
+                        required
+                        autoComplete="email"/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
@@ -54,7 +73,10 @@ const Register = () => {
                         type="password" 
                         name="password" 
                         value={password} 
-                        onChange={onChangeHandler}/>
+                        onChange={onChangeHandler}
+                        required
+                        minLength="6"
+                        autoComplete="new-password"/>
                 </div>
                 <div className="form-group">
                     <label 
@@ -65,7 +87,10 @@ const Register = () => {
                         type="password" 
                         name="password2" 
                         value={password2} 
-                        onChange={onChangeHandler}/>
+                        onChange={onChangeHandler}
+                        required
+                        minLength="6"
+                        autoComplete="new-password"/>
                 </div>
                 <input 
                     type="submit" 
