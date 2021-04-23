@@ -50,8 +50,12 @@ const ContactForm = () => {
     };
 
     return (
-        <form onSubmit={onSubmitHandler} className="form-container">
-            <h2 className="text-primary">
+        <form 
+            onSubmit={onSubmitHandler} 
+            className="form-container">
+            <h2 
+                className="text-primary"
+                style={{marginTop: '1rem'}}>
                 {current
                 ? 'Update Contact'
                 : 'Add Contact'}

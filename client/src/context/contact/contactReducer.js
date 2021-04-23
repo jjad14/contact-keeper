@@ -29,6 +29,21 @@ const reducer = (state, action) => {
                 ...state,
                 current: action.payload
             };
+        case actions.FILTER_CONTACTS:
+            return {
+                ...state,
+                filtered: state.contacts.filter(contact => {
+                    // gi for global and case insensitive
+                    const regex = new RegExp(`${action.payload}`, 'gi');
+
+                    return contact.name.match(regex) || contact.email.match(regex);
+                })
+            };
+        case actions.CLEAR_FILTER:
+            return {
+                ...state,
+                filtered: null
+            };
         case actions.CLEAR_CURRENT:
             return {
                 ...state,
