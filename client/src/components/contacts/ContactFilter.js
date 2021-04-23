@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import ContactContext from '../../context/contact/contactContext';
 
 const ContactFilter = () => {
-    const { filterContacts, clearFilter, filtered } = useContext(ContactContext);
+    const { filterContacts, clearFilter } = useContext(ContactContext);
 
     const onChangeHandler = e => {
         let inputFiltering = e.target.value;
