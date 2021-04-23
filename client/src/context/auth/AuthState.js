@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import AuthContext from './authContext';
 import authReducer from './authReducer';
+import setAuthToken from '../../utils/setAuthToken';
+
 import * as actions from '../actions';
 
 const AuthState = props => {
@@ -17,8 +19,24 @@ const AuthState = props => {
     const [ state, dispatch ] = useReducer(authReducer, initalState);
 
     // Load User (check which user is logged in)
-    const loadUser = () => {
-        console.log('Load user');
+    const loadUser = async () => {
+        // load token into global headers
+        // if (localStorage.token) {
+            setAuthToken(localStorage.token);
+        // }
+
+        try {
+            const res = await axios.get('/api/auth');
+
+            dispatch({
+                type: actions.USER_LOADED, 
+                payload: res.data
+            });
+
+        } catch (error) {
+            dispatch({type: actions.AUTH_ERROR});       
+        }
+
     };
 
     // Register User
@@ -33,6 +51,8 @@ const AuthState = props => {
             const res = await axios.post('/api/users', formData, config);
 
             dispatch({type: actions.REGISTER_SUCCESS, payload: res.data});
+
+            loadUser();
         }
         catch(err) {
             dispatch({type: actions.REGISTER_FAIL, payload: err.response.data.message});
@@ -40,8 +60,29 @@ const AuthState = props => {
     };
 
     // Login User
-    const login = () => {
-        console.log('Login');
+    const login = async (formData) => {
+        const config ={
+            headers: {
+                'Context-Type': 'application/json'
+            }
+        };
+
+        try {
+            const res = await axios.post('/api/auth', formData, config);
+
+            dispatch({
+                type: actions.LOGIN_SUCCESS, 
+                payload: res.data
+            });
+
+            loadUser();
+        }
+        catch(err) {
+            dispatch({
+                type: actions.LOGIN_FAIL, 
+                payload: err.response.data.message
+            });
+        }
 
     };
 

@@ -1,12 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
-const Login = () => {
+import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
+
+const Login = (props) => {
+    const { login, error, clearErrors, isAuthenticated } = useContext(AuthContext);
+    const { setAlert } = useContext(AlertContext);
+
     const [user, setUser] = useState({
         email: '',
         password: '',
     });
 
     const { email, password } = user;
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            props.history.push('/');
+        }
+    }, [isAuthenticated, props.history])
+
+    useEffect(() => {
+        if (error) {
+            setAlert(error, 'danger');
+            clearErrors();
+        }
+    }, [error, clearErrors, setAlert]);
+
+    // useEffect(() => {
+    //     if (isAuthenticated) {
+    //         props.history.push('/');
+    //     }
+
+    //     if (error === 'Invalid Credentials') {
+    //         setAlert(error, 'danger');
+    //         clearErrors();
+    //     }
+    //     // esling-disable-next-line
+    // }, [error, isAuthenticated, props.history]);
     
     const onChangeHandler = (e) => {
         setUser({...user, [e.target.name]: e.target.value});
@@ -15,7 +46,16 @@ const Login = () => {
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
-        console.log('Login Submitted');
+        if (email === '' || password === '') {
+            setAlert('Please fill in all fields', 'danger');
+        }
+        else {
+            login({
+                email,
+                password
+            });
+        }
+
     };
 
     return (
@@ -33,7 +73,8 @@ const Login = () => {
                         type="email" 
                         name="email" 
                         value={email} 
-                        onChange={onChangeHandler}/>
+                        onChange={onChangeHandler}autoComplete="email"
+                        required/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
@@ -41,7 +82,9 @@ const Login = () => {
                         type="password" 
                         name="password" 
                         value={password} 
-                        onChange={onChangeHandler}/>
+                        onChange={onChangeHandler}
+                        autoComplete="new-password"
+                        required/>
                 </div>
                 <input 
                     type="submit" 
