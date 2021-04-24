@@ -61,9 +61,9 @@ const Contacts = () => {
     }
 
     return (
-        <Fragment>
+        <div className="Contacts">
             {result}
-        </Fragment>
+        </div>
     );
 };
 
