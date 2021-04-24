@@ -7,13 +7,30 @@ import * as actions from '../actions';
 
 const ContactState = props => {
     const initalState = {
-        contacts: [],
+        contacts: null,
         current: null,
         filtered: null,
         error: null
     };
 
     const [ state, dispatch ] = useReducer(contactReducer, initalState);
+
+    // Get Contacts
+    const getContacts = async () => {
+        try {
+            const res = await axios.get('/api/contacts');
+
+            dispatch({ 
+                type: actions.GET_CONTACTS, 
+                payload: res.data
+            });
+        } catch (error) {
+            dispatch({
+                type: actions.CONTACT_ERROR,
+                payload: error.response.msg
+            });
+        }
+    };
 
     // Add Contact
     const addContact = async (contact) => {
@@ -36,12 +53,16 @@ const ContactState = props => {
                 payload: error.response.msg
             });
         }
-
     };
 
     // Delete Contact
     const deleteContact = id => {
         dispatch({ type: actions.DELETE_CONTACT, payload: id});  
+    };
+
+    // Clear Contacts
+    const clearContacts = () => {
+        dispatch({type: actions.CLEAR_CONTACTS});
     };
 
     // Update Contact
@@ -76,12 +97,14 @@ const ContactState = props => {
             current: state.current,
             filtered: state.filtered,
             error: state.error,
+            getContacts,
             addContact,
             deleteContact,
             updateContact,
             setCurrent,
             clearCurrent,
             filterContacts,
+            clearContacts,
             clearFilter
         }}>
             { props.children }

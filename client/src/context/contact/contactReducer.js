@@ -2,13 +2,20 @@ import * as actions from '../actions';
 
 const reducer = (state, action) => {
     switch (action.type) {
+        case actions.GET_CONTACTS:
+            return {
+                ...state,
+                contacts: action.payload,
+                loading: false
+            };
         case actions.ADD_CONTACT:
             return {
                 ...state,
                 contacts: [
                     ...state.contacts,
                     action.payload
-                ]
+                ],
+                loading: false
             };
         case actions.UPDATE_CONTACT:
             return {
@@ -17,12 +24,14 @@ const reducer = (state, action) => {
                     contact.id === action.payload.id 
                     ? action.payload 
                     : contact
-                )
+                ),
+                loading: false
             };
         case actions.DELETE_CONTACT:
             return {
                 ...state,
-                contacts: state.contacts.filter(contact => contact.id !== action.payload)
+                contacts: state.contacts.filter(contact => contact.id !== action.payload),
+                loading: false
             };
         case actions.SET_CURRENT:
             return {
@@ -47,6 +56,14 @@ const reducer = (state, action) => {
         case actions.CLEAR_CURRENT:
             return {
                 ...state,
+                current: null
+            };
+        case actions.CLEAR_CONTACTS:
+            return {
+                ...state,
+                contacts: null,
+                filtered: null,
+                error: null,
                 current: null
             };
         case actions.CONTACT_ERROR:
