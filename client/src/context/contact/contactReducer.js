@@ -12,8 +12,8 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 contacts: [
-                    ...state.contacts,
-                    action.payload
+                    action.payload,
+                    ...state.contacts
                 ],
                 loading: false
             };
@@ -30,7 +30,7 @@ const reducer = (state, action) => {
         case actions.DELETE_CONTACT:
             return {
                 ...state,
-                contacts: state.contacts.filter(contact => contact.id !== action.payload),
+                contacts: state.contacts.filter(contact => contact._id !== action.payload),
                 loading: false
             };
         case actions.SET_CURRENT:
