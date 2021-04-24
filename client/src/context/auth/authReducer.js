@@ -57,6 +57,16 @@ const reducer = (state, action) => {
                 user: null,
                 error: action.payload
             };
+        case actions.LOGOUT:
+            localStorage.removeItem('token');
+            return {
+                ...state,
+                token: null,
+                isAuthenticated: false,
+                loading: false,
+                user: null,
+                error: action.payload
+            };
         case actions.CLEAR_ERRORS: 
             return {
                 ...state,
