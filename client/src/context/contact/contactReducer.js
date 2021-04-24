@@ -21,7 +21,7 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 contacts: state.contacts.map(contact => 
-                    contact.id === action.payload.id 
+                    contact._id === action.payload._id 
                     ? action.payload 
                     : contact
                 ),
