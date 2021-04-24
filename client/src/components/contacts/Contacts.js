@@ -21,7 +21,7 @@ const Contacts = () => {
                 <AnimatePresence>
                     {filtered.map(contact => (
                         <motion.div 
-                            key={contact.id}
+                            key={contact._id}
                             initial={{opacity: 0}}
                             animate={{opacity: 1}}
                             exit={{opacity: 0}}
@@ -36,7 +36,7 @@ const Contacts = () => {
                 <AnimatePresence>
                     {contacts.map(contact => (
                         <motion.div 
-                            key={contact.id}
+                            key={contact._id}
                             initial={{opacity: 0}}
                             animate={{opacity: 1}}
                             exit={{opacity: 0}}

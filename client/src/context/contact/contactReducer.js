@@ -49,6 +49,11 @@ const reducer = (state, action) => {
                 ...state,
                 current: null
             };
+        case actions.CONTACT_ERROR:
+            return {
+                ...state,
+                error: action.payload
+            };
         default:
             return state;
     }

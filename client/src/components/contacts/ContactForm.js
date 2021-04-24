@@ -6,6 +6,7 @@ const ContactForm = () => {
     const contactContext = useContext(ContactContext);
 
     const { current, addContact, updateContact, clearCurrent } = contactContext;
+    
     const [contact, setContact] = useState({
         name: '',
         email: '',

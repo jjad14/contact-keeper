@@ -9,6 +9,9 @@ export const CLEAR_CURRENT = 'CLEAR_CURRENT';
 export const FILTER_CONTACTS = 'FILTER_CONTACTS';
 export const CLEAR_FILTER = 'CLEAR_FILTER';
 
+export const CONTACT_ERROR = 'CONTACT_ERROR';
+export const CLEAR_CONTACT = 'CLEAR_CONTACT';
+
 // Alert Actions
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
